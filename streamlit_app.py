@@ -57,6 +57,7 @@ elif menu_opciones=="An'alisis":
     st.header("Análisis")
 elif menu_opciones=="Ayuda":
     st.header("Ayuda")
+    st.write(reportes.datos)
 st.markdown("""
     <style>
     div.stButton > button:first-child {
