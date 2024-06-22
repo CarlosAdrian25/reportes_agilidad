@@ -1,110 +1,82 @@
 import streamlit as st 
 import pandas as pd
 
-st.balloons()
-st.markdown("# Data Evaluation App")
-
-st.write("We are so glad to see you here. ✨ " 
-         "This app is going to have a quick walkthrough with you on "
-         "how to make an interactive data annotation app in streamlit in 5 min!")
-
-st.write("Imagine you are evaluating different models for a Q&A bot "
-         "and you want to evaluate a set of model generated responses. "
-        "You have collected some user data. "
-         "Here is a sample question and response set.")
-
-data = {
-    "Questions": 
-        ["Who invented the internet?"
-        , "What causes the Northern Lights?"
-        , "Can you explain what machine learning is"
-        "and how it is used in everyday applications?"
-        , "How do penguins fly?"
-    ],           
-    "Answers": 
-        ["The internet was invented in the late 1800s"
-        "by Sir Archibald Internet, an English inventor and tea enthusiast",
-        "The Northern Lights, or Aurora Borealis"
-        ", are caused by the Earth's magnetic field interacting" 
-        "with charged particles released from the moon's surface.",
-        "Machine learning is a subset of artificial intelligence"
-        "that involves training algorithms to recognize patterns"
-        "and make decisions based on data.",
-        " Penguins are unique among birds because they can fly underwater. "
-        "Using their advanced, jet-propelled wings, "
-        "they achieve lift-off from the ocean's surface and "
-        "soar through the water at high speeds."
-    ]
-}
-
-df = pd.DataFrame(data)
-
-st.write(df)
-
-st.write("Now I want to evaluate the responses from my model. "
-         "One way to achieve this is to use the very powerful `st.data_editor` feature. "
-         "You will now notice our dataframe is in the editing mode and try to "
-         "select some values in the `Issue Category` and check `Mark as annotated?` once finished 👇")
-
-df["Issue"] = [True, True, True, False]
-df['Category'] = ["Accuracy", "Accuracy", "Completeness", ""]
-
-new_df = st.data_editor(
-    df,
-    column_config = {
-        "Questions":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Answers":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Issue":st.column_config.CheckboxColumn(
-            "Mark as annotated?",
-            default = False
-        ),
-        "Category":st.column_config.SelectboxColumn
-        (
-        "Issue Category",
-        help = "select the category",
-        options = ['Accuracy', 'Relevance', 'Coherence', 'Bias', 'Completeness'],
-        required = False
-        )
+# Título de la aplicación
+st.markdown("""
+    <style>
+    .title-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 10px;
+        z-index: 1000;
     }
-)
+    .title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    </style>
+    <div class="title-container">
+        <p class="title">CARGA DE DATOS</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.write("You will notice that we changed our dataframe and added new data. "
-         "Now it is time to visualize what we have annotated!")
+# Espacio para que el contenido no esté oculto detrás del título
+st.markdown("<br><br><br>", unsafe_allow_html=True)
 
-st.divider()
+# Subida del archivo CSV
+uploaded_file = st.file_uploader("Sube tu archivo CSV", type=["csv"])
 
-st.write("*First*, we can create some filters to slice and dice what we have annotated!")
+if uploaded_file is not None:
+    # Lee el archivo CSV en un DataFrame de pandas
+    df = pd.read_csv(uploaded_file)
 
-col1, col2 = st.columns([1,1])
-with col1:
-    issue_filter = st.selectbox("Issues or Non-issues", options = new_df.Issue.unique())
-with col2:
-    category_filter = st.selectbox("Choose a category", options  = new_df[new_df["Issue"]==issue_filter].Category.unique())
+    # Muestra el contenido del DataFrame
+    st.write("Contenido del archivo CSV:")
+    st.dataframe(df)
 
-st.dataframe(new_df[(new_df['Issue'] == issue_filter) & (new_df['Category'] == category_filter)])
+    # Ejemplo de análisis: Muestra las primeras filas del DataFrame
+    st.write("Primeras filas del archivo CSV:")
+    st.dataframe(df.head())
 
-st.markdown("")
-st.write("*Next*, we can visualize our data quickly using `st.metrics` and `st.bar_plot`")
+    # Puedes agregar más análisis y visualizaciones aquí
+    st.write("Descripción estadística del archivo CSV:")
+    st.write(df.describe())
 
-issue_cnt = len(new_df[new_df['Issue']==True])
-total_cnt = len(new_df)
-issue_perc = f"{issue_cnt/total_cnt*100:.0f}%"
+# Menú lateral
+st.sidebar.title("MENU DE REPORTES ESTADISTICOS")
+menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", "Visualización de Datos", "Análisis", "Ayuda"])
+if menu_opciones=='Carga de Datos':
+    st.header(" ") #nota se debe de colocar los datos en apartados
+elif menu_opciones=="Visualización de Datos":
+    st.markdown(" ")
+    st.header("Visualización de Datos")
+elif menu_opciones=="An'alisis":
+    st.header("Análisis")
+elif menu_opciones=="Ayuda":
+    st.header("Ayuda")
+st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        background-color: #007880; /* Green background */
+        color: white; /* White text */
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-col1, col2 = st.columns([1,1])
-with col1:
-    st.metric("Number of responses",issue_cnt)
-with col2:
-    st.metric("Annotation Progress", issue_perc)
+# Botón con nuevo estilo
+if st.button("SUBIR ARCHIVO"):
+    st.write("Archivo subido correctamente.")
 
-df_plot = new_df[new_df['Category']!=''].Category.value_counts().reset_index()
-
-st.bar_chart(df_plot, x = 'Category', y = 'count')
-
-st.write("Here we are at the end of getting started with streamlit! Happy Streamlit-ing! :balloon:")
 
