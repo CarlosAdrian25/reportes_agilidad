@@ -1,6 +1,8 @@
 import streamlit as st 
 import pandas as pd
 
+from reportes import mostrar_pagina_visualizacion
+
 # Título de la aplicación
 st.markdown("""
     <style>
@@ -51,13 +53,12 @@ menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", 
 if menu_opciones=='Carga de Datos':
     st.header(" ") #nota se debe de colocar los datos en apartados
 elif menu_opciones=="Visualización de Datos":
-    st.markdown(" ")
+    mostrar_pagina_visualizacion()
     st.header("Visualización de Datos")
 elif menu_opciones=="An'alisis":
     st.header("Análisis")
 elif menu_opciones=="Ayuda":
     st.header("Ayuda")
-    st.write(reportes.datos)
 st.markdown("""
     <style>
     div.stButton > button:first-child {
