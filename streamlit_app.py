@@ -6,7 +6,7 @@ from Ayuda import ayuda
 
 # Menú de la aplicacion con streamlit
 st.sidebar.title("MENU DE REPORTES ESTADISTICOS")
-menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", "Visualización de Datos", "Análisis", "Ayuda","reportes"])
+menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", "Visualización de Datos", "Análisis", "Ayuda"])
 if menu_opciones=='Carga de Datos':
     archivo()
 elif menu_opciones=="Visualización de Datos":
@@ -15,8 +15,7 @@ elif menu_opciones=="Análisis":
     analisis()
 elif menu_opciones=="Ayuda":
     ayuda()
-elif menu_opciones=="reportes":
-    mostrar_pagina_visualizacion()
+
 
 
 
