@@ -1,18 +1,23 @@
 import streamlit as st 
 from reportes import mostrar_pagina_visualizacion
 from archivos import archivo
+from analisis import analisis
+from Ayuda import ayuda
+from reportes import mostrar_pagina_visualizacion
 
-# Menú lateral
+# Menú de la aplicacion con streamlit
 st.sidebar.title("MENU DE REPORTES ESTADISTICOS")
-menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", "Visualización de Datos", "Análisis", "Ayuda"])
+menu_opciones=st.sidebar.selectbox("Selecciona una opción", ["Carga de Datos", "Visualización de Datos", "Análisis", "Ayuda","reportes"])
 if menu_opciones=='Carga de Datos':
     archivo()
 elif menu_opciones=="Visualización de Datos":
     mostrar_pagina_visualizacion()
-elif menu_opciones=="An'alisis":
-    st.header("Análisis")
+elif menu_opciones=="Análisis":
+    analisis()
 elif menu_opciones=="Ayuda":
-    st.header("Ayuda")
+    ayuda()
+elif menu_opciones=="reportes":
+    ayuda()
 
 
 
