@@ -17,7 +17,7 @@ elif menu_opciones=="Análisis":
 elif menu_opciones=="Ayuda":
     ayuda()
 elif menu_opciones=="reportes":
-    ayuda()
+    mostrar_pagina_visualizacion()
 
 
 
