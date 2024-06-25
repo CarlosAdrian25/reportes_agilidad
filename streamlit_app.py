@@ -3,7 +3,6 @@ from reportes import mostrar_pagina_visualizacion
 from archivos import archivo
 from analisis import analisis
 from Ayuda import ayuda
-from reportes import mostrar_pagina_visualizacion
 
 # Menú de la aplicacion con streamlit
 st.sidebar.title("MENU DE REPORTES ESTADISTICOS")
