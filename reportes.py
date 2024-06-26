@@ -37,8 +37,24 @@ def mostrar_pagina_visualizacion():
 
     st.write("You selected:", options)
 
+    #select box de opciones 
+
     evo = st.selectbox(
     "Select Box",
     ("Email", "Home phone", "Mobile phone")
     )
     st.write("You selected:", evo)
+
+    #un relector de rango.
+    start_color, end_color = st.select_slider(
+    "Select a range of color wavelength",
+    options=["red", "orange", "yellow", "green", "blue", "indigo", "violet"],
+    value=("red", "blue"))
+    st.write("tu seleccionaste desde", start_color, "hasta", end_color)
+    
+    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+    st.bar_chart(chart_data)
+    #los graficos de parte de comlums se tiene que pasar por los indices de mi dataframe
+
+
+    
