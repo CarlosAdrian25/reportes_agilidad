@@ -3,6 +3,7 @@ from reportes import mostrar_pagina_visualizacion
 from archivos import archivo
 from analisis import analisis
 from Ayuda import ayuda
+from reportes import mostrar_pagina_visualizacion
 from streamlit_option_menu import option_menu
 
 st.markdown(
@@ -38,11 +39,11 @@ with st.sidebar:
 
 # Mostrar contenido basado en la selección
 if selected == "ANALISIS":
-    st.write("Esta es la página de inicio")
+    analisis()
 elif selected == "SUBIR ARCHIVO":
     archivo()
 elif selected == "REPORTES (EXPORTACION)":
-    st.write("Esta es la página de acerca de")
+    mostrar_pagina_visualizacion()
 
 
 
